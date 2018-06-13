@@ -8,7 +8,9 @@
 #           -h              # print help
 #           hostname        # host to TCP ping
 #           port            # port number to use (default is 22)
-#######################################################################
+#                       runs                    # number of times to try connection (default 3)
+#                       rest                    # number of seconds to wait before trying again(default 10sec)
+##########################################################################################
 
 use strict;
 use IO::Socket;
@@ -19,7 +21,10 @@ use IO::Socket;
 my $host = defined $ARGV[0] ? $ARGV[0] : "";
 usage() if $host =~ /^(-h|--help|)$/;
 my $port = defined $ARGV[1] ? $ARGV[1] : 22;    # default port
+my $runs = defined $ARGV[2] ? $ARGV[2] : 3;    # default port
+my $rest = defined $ARGV[3] ? $ARGV[3] : 10;    # default port
 
+for (my $i=1; $i <= $runs; $i++) {
 #
 #  Try to connect
 #
@@ -40,9 +45,10 @@ if ($remote) {
 }
 else {
     print "$host failed\n";
-    exit 1;
+        sleep $rest;
 }
-
+}
+exit 1;
 # usage - print usage message and exit
 #
 sub usage {
@@ -52,4 +58,3 @@ sub usage {
     exit 1;
 }
 ### FIN ###
-
