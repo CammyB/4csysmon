@@ -1,0 +1,10 @@
+12/13/10 12:03:13 zasrvsun05       P1 cpu___________status CPU 3: down
+12/13/10 12:03:13 tzvodaicapuat01  P2 fs_______utilization /app/oracle at 80% 5G available
+12/13/10 12:03:13 drcvodal50001    P1 metadevice____health d60 in maintance state
+12/13/10 12:03:13 m9000doma        P1 mntab__diff___vfstab /app/oracle not in mnttab
+12/13/10 12:03:13 m4000doma        P1 mntab__diff__zonecfg zasrvoem01 /app/oracle not in zonecfg
+12/13/10 12:03:13 tzvodabck01      P1 tapedrive_____status /dev/rmt/0cbn faulted
+12/13/10 12:03:13 tzvodasmon01     P1 mis__frontend_status ping FAILURE 192.168.1.20
+12/13/10 12:03:13 tzvodavxview01   P1 ssh_______connection connection to zasrvoem01 lost via SSH
+12/13/10 12:03:13 e6900doma        P1 os_useracc__pass_exp chrisw password expires in 2 days
+12/13/10 12:03:13 tzvodasmc01      P1 hostlog_sync_failure hostlog sync failure to zasrvsmon01

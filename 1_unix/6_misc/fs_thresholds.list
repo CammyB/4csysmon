@@ -1,0 +1,28 @@
+#Available alerting Parties are:
+#Parties that end with MS send both emails and smses
+######################################
+# UXSUPPMS
+# UXSUPPMAIL
+# ORASUPPMS
+# ORASUPPMAIL
+# DRCSUPPMS
+# DRCSUPPMAIL
+# VTLSUPPMS
+# VTLSUPPMAIL
+# VMSASUPPMS
+# VMSASUPPMAIL
+# BCXSMS
+# BILLAPPTZMS
+# BILLAPPTZMAIL
+# VMZSUPPMS
+# VMZSUPPMAIL
+# VCLSUPPMS
+# VCLSUPPMAIL
+######################################
+
+#MB     Criteria        FS
+######################################
+5000   UXSUPPMS                 /
+5000   UXSUPPMS                 /var
+5000   UXSUPPMAIL               /zones
+5000   UXSUPPMAIL               /export/home

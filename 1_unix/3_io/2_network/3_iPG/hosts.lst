@@ -1,0 +1,19 @@
+### Host list ################################################
+#IP Address     Hostname        TCP port        Port Description
+##############################################################
+##### Justice DC: (PROD)
+#10.90.4.50     drcvodammipg01
+#10.90.4.55      drcvodammipg03  4251    USSD_GW_PORT
+#10.90.4.55      drcvodammipg03  8098    B2B_VodaE_port
+#10.90.4.55      drcvodammipg03  1231    G2_Result_Lstnr
+#10.90.4.55      drcvodammipg03  22      SSH
+#10.90.4.55      drcvodammipg03  8080    HTTP
+##### Strip DC: (DR)
+#10.90.104.50   drcvodammipg02
+#10.90.104.55   drcvodammipg04
+10.90.104.55      drcvodammipg04  4251    USSD_GW_PORT
+10.90.104.55      drcvodammipg04  8098    B2B_VodaE_port
+10.90.104.55      drcvodammipg04  1231    G2_Result_Lstnr
+10.90.104.55      drcvodammipg04  22      SSH
+10.90.104.55      drcvodammipg04  8080    HTTP
+### FIN #######################################################

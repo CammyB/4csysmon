@@ -1,0 +1,454 @@
+#!/bin/bash
+
+# Check if already running
+
+SCRIPT=`basename $0`
+if [ `ps -ef | grep $SCRIPT | grep -v grep | wc -l` -gt 3 ]; then
+	echo "already running"
+	exit 1
+fi
+
+#
+# Create the RRD for each host & keep data for a        month (44640 minutes)
+#                                                       year (525600 minutes)
+# rrdtool create oscar_ping_db.rrd --step 60 DS:host_01:GAUGE:120:0:10000000 DS:host_02:GAUGE:120:0:10000000 RRA:MAX:0.5:1:44640
+#
+# Tested on     - Solaris 10
+#
+# Needs a system.lst file that looks like this:
+# Host Latancy to be checked
+# -------------------------------
+# IP Address    Hostname_RRD
+# -------------------------------
+#10.200.7.71    HOST01.rrd
+#10.200.7.11    HOST02.rrd
+#
+# Put in cron every hour
+# 0 * * * * /4csysmon/1_unix/3_io/2_network/latancy_check/latancy_check_vclins01.sh >/dev/null 2>&1
+#
+### Variables ####################################################################
+RRDTOOL="/usr/local/rrdtool-1.2.19/bin/rrdtool"
+WORKING_DIR="/4csysmon/1_unix/3_io/2_network/1_latancy_check"
+SYSTEMS_LIST="system.lst"
+MODULE_LOG=ping.log
+HOST_LOG=hostlog.log
+HOSTNAME=`hostname`
+DATE=`date +"%Y-%m-%d %H:%M"`
+#
+### CREATE & UPDATE the RRD's: ############################################################
+cd $WORKING_DIR
+cat $SYSTEMS_LIST |grep -iv "#" |while read IP SYS
+        do
+                if [ -f $SYS ]
+                        then
+                                LATANCY=`ping -s $IP 64 3 |grep avg |cut -d= -f2  |awk -F"/" '{print $2}'`
+                                $RRDTOOL update $SYS --template host N:$LATANCY
+                        else
+                                $RRDTOOL create $SYS --step 3600 DS:host:GAUGE:7200:0:10000000 RRA:MAX:0.5:1:525600
+                                LATANCY=`ping -s $IP 64 3 |grep avg |cut -d= -f2  |awk -F"/" '{print $2}'`
+                                $RRDTOOL update $SYS --template host N:$LATANCY
+                fi
+        done
+### GRAPH the RRD's: ############################################################
+### Daily Graph
+$RRDTOOL graph Network_Latency_Daily_PPFE.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -86400 --end now \
+--font DEFAULT:7: \
+--title "Daily Remote PPFE Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid HOUR:1:HOUR:2:HOUR:2:0:%R \
+--alt-y-grid --rigid \
+'DEF:host_8_149=8_149.rrd:host:MAX' \
+'DEF:host_8_150=8_150.rrd:host:MAX' \
+'DEF:host_8_151=8_151.rrd:host:MAX' \
+'DEF:host_8_152=8_152.rrd:host:MAX' \
+'DEF:host_8_153=8_153.rrd:host:MAX' \
+'DEF:host_8_154=8_154.rrd:host:MAX' \
+'DEF:host_8_155=8_155.rrd:host:MAX' \
+'DEF:host_8_156=8_156.rrd:host:MAX' \
+'DEF:host_8_157=8_157.rrd:host:MAX' \
+'DEF:host_8_158=8_158.rrd:host:MAX' \
+'DEF:host_8_159=8_159.rrd:host:MAX' \
+'DEF:host_8_160=8_160.rrd:host:MAX' \
+'DEF:host_8_170=8_170.rrd:host:MAX' \
+'DEF:host_8_171=8_171.rrd:host:MAX' \
+'DEF:host_8_172=8_172.rrd:host:MAX' \
+'DEF:host_8_173=8_173.rrd:host:MAX' \
+'DEF:host_11_148=11_148.rrd:host:MAX' \
+'DEF:host_11_149=11_149.rrd:host:MAX' \
+'DEF:host_11_151=11_151.rrd:host:MAX' \
+'DEF:host_11_152=11_152.rrd:host:MAX' \
+'DEF:host_11_153=11_153.rrd:host:MAX' \
+'DEF:host_11_154=11_154.rrd:host:MAX' \
+'DEF:host_11_155=11_155.rrd:host:MAX' \
+'DEF:host_11_156=11_156.rrd:host:MAX' \
+'DEF:host_11_157=11_157.rrd:host:MAX' \
+'DEF:host_11_158=11_158.rrd:host:MAX' \
+'DEF:host_11_159=11_159.rrd:host:MAX' \
+'DEF:host_11_170=11_170.rrd:host:MAX' \
+'DEF:host_11_171=11_171.rrd:host:MAX' \
+'DEF:host_11_172=11_172.rrd:host:MAX' \
+'DEF:host_11_173=11_173.rrd:host:MAX' \
+'LINE1:host_8_149#F0F8FF:Host_8_149' \
+'LINE1:host_8_150#00FFFF:Host_8_150' \
+'LINE1:host_8_151#000000:Host_8_151' \
+'LINE1:host_8_152#4682B4:Host_8_152' \
+'LINE1:host_8_153#FF0000:Host_8_153' \
+'LINE1:host_8_154#98FB98:Host_8_154' \
+'LINE1:host_8_155#F0E68C:Host_8_155' \
+'LINE1:host_8_156#ADFF2F:Host_8_156' \
+'LINE1:host_8_157#FFD700:Host_8_157' \
+'LINE1:host_8_158#228B22:Host_8_158' \
+'LINE1:host_8_159#1E90FF:Host_8_159' \
+'LINE1:host_8_160#696969:Host_8_160' \
+'LINE1:host_8_170#FF1493:Host_8_170' \
+'LINE1:host_8_171#483D8B:Host_8_171' \
+'LINE1:host_8_172#9932CC:Host_8_172' \
+'LINE1:host_8_173#FF8C00:Host_8_173' \
+'LINE1:host_11_148#8B008B:Host_11_148' \
+'LINE1:host_11_149#006400:Host_11_149' \
+'LINE1:host_11_151#A9A9A9:Host_11_151' \
+'LINE1:host_11_152#B8860B:Host_11_152' \
+'LINE1:host_11_153#008B8B:Host_11_153' \
+'LINE1:host_11_154#00008B:Host_11_154' \
+'LINE1:host_11_155#00FFFF:Host_11_155' \
+'LINE1:host_11_156#DC143C:Host_11_156' \
+'LINE1:host_11_157#6495ED:Host_11_157' \
+'LINE1:host_11_158#FF7F50:Host_11_158' \
+'LINE1:host_11_159#D2691E:Host_11_159' \
+'LINE1:host_11_170#7FFF00:Host_11_170' \
+'LINE1:host_11_171#5F9EA0:Host_11_171' \
+'LINE1:host_11_172#A52A2A:Host_11_172' \
+'LINE1:host_11_173#8A2BE2:Host_11_173' \
+#
+$RRDTOOL graph Network_Latency_Daily_Other.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -86400 --end now \
+--font DEFAULT:7: \
+--title "Daily Remote Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid HOUR:1:HOUR:2:HOUR:2:0:%R \
+--alt-y-grid --rigid \
+'DEF:host_AMAPROD=ama4ws_PROD.rrd:host:MAX' \
+'DEF:host_AMADR=ama4___DR.rrd:host:MAX' \
+'DEF:host_INS02=vclins02.rrd:host:MAX' \
+'LINE1:host_AMAPROD#4682B4:AMA_PROD' \
+'LINE1:host_AMADR#00FFFF:AMA_DR' \
+'LINE1:host_INS02#000000:VCLINS02'
+#
+### Weekly Graph
+$RRDTOOL graph Network_Latency_Weekly_PPFE.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -1w --end now \
+--font DEFAULT:7: \
+--title "Weekly Remote PPFE Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid HOUR:4:HOUR:8:HOUR:12:0:%R \
+--alt-y-grid --rigid \
+'DEF:host_8_149=8_149.rrd:host:MAX' \
+'DEF:host_8_150=8_150.rrd:host:MAX' \
+'DEF:host_8_151=8_151.rrd:host:MAX' \
+'DEF:host_8_152=8_152.rrd:host:MAX' \
+'DEF:host_8_153=8_153.rrd:host:MAX' \
+'DEF:host_8_154=8_154.rrd:host:MAX' \
+'DEF:host_8_155=8_155.rrd:host:MAX' \
+'DEF:host_8_156=8_156.rrd:host:MAX' \
+'DEF:host_8_157=8_157.rrd:host:MAX' \
+'DEF:host_8_158=8_158.rrd:host:MAX' \
+'DEF:host_8_159=8_159.rrd:host:MAX' \
+'DEF:host_8_160=8_160.rrd:host:MAX' \
+'DEF:host_8_170=8_170.rrd:host:MAX' \
+'DEF:host_8_171=8_171.rrd:host:MAX' \
+'DEF:host_8_172=8_172.rrd:host:MAX' \
+'DEF:host_8_173=8_173.rrd:host:MAX' \
+'DEF:host_11_148=11_148.rrd:host:MAX' \
+'DEF:host_11_149=11_149.rrd:host:MAX' \
+'DEF:host_11_151=11_151.rrd:host:MAX' \
+'DEF:host_11_152=11_152.rrd:host:MAX' \
+'DEF:host_11_153=11_153.rrd:host:MAX' \
+'DEF:host_11_154=11_154.rrd:host:MAX' \
+'DEF:host_11_155=11_155.rrd:host:MAX' \
+'DEF:host_11_156=11_156.rrd:host:MAX' \
+'DEF:host_11_157=11_157.rrd:host:MAX' \
+'DEF:host_11_158=11_158.rrd:host:MAX' \
+'DEF:host_11_159=11_159.rrd:host:MAX' \
+'DEF:host_11_170=11_170.rrd:host:MAX' \
+'DEF:host_11_171=11_171.rrd:host:MAX' \
+'DEF:host_11_172=11_172.rrd:host:MAX' \
+'DEF:host_11_173=11_173.rrd:host:MAX' \
+'LINE1:host_8_149#F0F8FF:Host_8_149' \
+'LINE1:host_8_150#00FFFF:Host_8_150' \
+'LINE1:host_8_151#000000:Host_8_151' \
+'LINE1:host_8_152#4682B4:Host_8_152' \
+'LINE1:host_8_153#FF0000:Host_8_153' \
+'LINE1:host_8_154#98FB98:Host_8_154' \
+'LINE1:host_8_155#F0E68C:Host_8_155' \
+'LINE1:host_8_156#ADFF2F:Host_8_156' \
+'LINE1:host_8_157#FFD700:Host_8_157' \
+'LINE1:host_8_158#228B22:Host_8_158' \
+'LINE1:host_8_159#1E90FF:Host_8_159' \
+'LINE1:host_8_160#696969:Host_8_160' \
+'LINE1:host_8_170#FF1493:Host_8_170' \
+'LINE1:host_8_171#483D8B:Host_8_171' \
+'LINE1:host_8_172#9932CC:Host_8_172' \
+'LINE1:host_8_173#FF8C00:Host_8_173' \
+'LINE1:host_11_148#8B008B:Host_11_148' \
+'LINE1:host_11_149#006400:Host_11_149' \
+'LINE1:host_11_151#A9A9A9:Host_11_151' \
+'LINE1:host_11_152#B8860B:Host_11_152' \
+'LINE1:host_11_153#008B8B:Host_11_153' \
+'LINE1:host_11_154#00008B:Host_11_154' \
+'LINE1:host_11_155#00FFFF:Host_11_155' \
+'LINE1:host_11_156#DC143C:Host_11_156' \
+'LINE1:host_11_157#6495ED:Host_11_157' \
+'LINE1:host_11_158#FF7F50:Host_11_158' \
+'LINE1:host_11_159#D2691E:Host_11_159' \
+'LINE1:host_11_170#7FFF00:Host_11_170' \
+'LINE1:host_11_171#5F9EA0:Host_11_171' \
+'LINE1:host_11_172#A52A2A:Host_11_172' \
+'LINE1:host_11_173#8A2BE2:Host_11_173'
+#
+$RRDTOOL graph Network_Latency_Weekly_Other.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -1w --end now \
+--font DEFAULT:7: \
+--title "Weekly Remote Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid HOUR:4:HOUR:8:HOUR:12:0:%R \
+--alt-y-grid --rigid \
+'DEF:host_AMAPROD=ama4ws_PROD.rrd:host:MAX' \
+'DEF:host_AMADR=ama4___DR.rrd:host:MAX' \
+'DEF:host_INS02=vclins02.rrd:host:MAX' \
+'LINE1:host_AMAPROD#4682B4:AMA_PROD' \
+'LINE1:host_AMADR#00FFFF:AMA_DR' \
+'LINE1:host_INS02#000000:VCLINS02'
+#
+### Monthly Graph
+$RRDTOOL graph Network_Latency_Monthly_PPFE.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -1m --end now \
+--font DEFAULT:7: \
+--title "Monthly Remote PPFE Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid HOUR:12:DAY:1:DAY:2:86400:%A \
+--alt-y-grid --rigid \
+'DEF:host_8_149=8_149.rrd:host:MAX' \
+'DEF:host_8_150=8_150.rrd:host:MAX' \
+'DEF:host_8_151=8_151.rrd:host:MAX' \
+'DEF:host_8_152=8_152.rrd:host:MAX' \
+'DEF:host_8_153=8_153.rrd:host:MAX' \
+'DEF:host_8_154=8_154.rrd:host:MAX' \
+'DEF:host_8_155=8_155.rrd:host:MAX' \
+'DEF:host_8_156=8_156.rrd:host:MAX' \
+'DEF:host_8_157=8_157.rrd:host:MAX' \
+'DEF:host_8_158=8_158.rrd:host:MAX' \
+'DEF:host_8_159=8_159.rrd:host:MAX' \
+'DEF:host_8_160=8_160.rrd:host:MAX' \
+'DEF:host_8_170=8_170.rrd:host:MAX' \
+'DEF:host_8_171=8_171.rrd:host:MAX' \
+'DEF:host_8_172=8_172.rrd:host:MAX' \
+'DEF:host_8_173=8_173.rrd:host:MAX' \
+'DEF:host_11_148=11_148.rrd:host:MAX' \
+'DEF:host_11_149=11_149.rrd:host:MAX' \
+'DEF:host_11_151=11_151.rrd:host:MAX' \
+'DEF:host_11_152=11_152.rrd:host:MAX' \
+'DEF:host_11_153=11_153.rrd:host:MAX' \
+'DEF:host_11_154=11_154.rrd:host:MAX' \
+'DEF:host_11_155=11_155.rrd:host:MAX' \
+'DEF:host_11_156=11_156.rrd:host:MAX' \
+'DEF:host_11_157=11_157.rrd:host:MAX' \
+'DEF:host_11_158=11_158.rrd:host:MAX' \
+'DEF:host_11_159=11_159.rrd:host:MAX' \
+'DEF:host_11_170=11_170.rrd:host:MAX' \
+'DEF:host_11_171=11_171.rrd:host:MAX' \
+'DEF:host_11_172=11_172.rrd:host:MAX' \
+'DEF:host_11_173=11_173.rrd:host:MAX' \
+'LINE1:host_8_149#F0F8FF:Host_8_149' \
+'LINE1:host_8_150#00FFFF:Host_8_150' \
+'LINE1:host_8_151#000000:Host_8_151' \
+'LINE1:host_8_152#4682B4:Host_8_152' \
+'LINE1:host_8_153#FF0000:Host_8_153' \
+'LINE1:host_8_154#98FB98:Host_8_154' \
+'LINE1:host_8_155#F0E68C:Host_8_155' \
+'LINE1:host_8_156#ADFF2F:Host_8_156' \
+'LINE1:host_8_157#FFD700:Host_8_157' \
+'LINE1:host_8_158#228B22:Host_8_158' \
+'LINE1:host_8_159#1E90FF:Host_8_159' \
+'LINE1:host_8_160#696969:Host_8_160' \
+'LINE1:host_8_170#FF1493:Host_8_170' \
+'LINE1:host_8_171#483D8B:Host_8_171' \
+'LINE1:host_8_172#9932CC:Host_8_172' \
+'LINE1:host_8_173#FF8C00:Host_8_173' \
+'LINE1:host_11_148#8B008B:Host_11_148' \
+'LINE1:host_11_149#006400:Host_11_149' \
+'LINE1:host_11_151#A9A9A9:Host_11_151' \
+'LINE1:host_11_152#B8860B:Host_11_152' \
+'LINE1:host_11_153#008B8B:Host_11_153' \
+'LINE1:host_11_154#00008B:Host_11_154' \
+'LINE1:host_11_155#00FFFF:Host_11_155' \
+'LINE1:host_11_156#DC143C:Host_11_156' \
+'LINE1:host_11_157#6495ED:Host_11_157' \
+'LINE1:host_11_158#FF7F50:Host_11_158' \
+'LINE1:host_11_159#D2691E:Host_11_159' \
+'LINE1:host_11_170#7FFF00:Host_11_170' \
+'LINE1:host_11_171#5F9EA0:Host_11_171' \
+'LINE1:host_11_172#A52A2A:Host_11_172' \
+'LINE1:host_11_173#8A2BE2:Host_11_173'
+#
+$RRDTOOL graph Network_Latency_Monthly_Other.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -1m --end now \
+--font DEFAULT:7: \
+--title "Monthly Remote Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid HOUR:12:DAY:1:DAY:2:86400:%A \
+--alt-y-grid --rigid \
+'DEF:host_AMAPROD=ama4ws_PROD.rrd:host:MAX' \
+'DEF:host_AMADR=ama4___DR.rrd:host:MAX' \
+'DEF:host_INS02=vclins02.rrd:host:MAX' \
+'LINE1:host_AMAPROD#4682B4:AMA_PROD' \
+'LINE1:host_AMADR#00FFFF:AMA_DR' \
+'LINE1:host_INS02#000000:VCLINS02'
+#
+### Yearly Graph
+$RRDTOOL graph Network_Latency_Yearly_PPFE.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -1y --end now \
+--font DEFAULT:7: \
+--title "Yearly Remote PPFE Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid DAY:7:MONTH:1:MONTH:1:2419200:%b \
+--alt-y-grid --rigid \
+'DEF:host_8_149=8_149.rrd:host:MAX' \
+'DEF:host_8_150=8_150.rrd:host:MAX' \
+'DEF:host_8_151=8_151.rrd:host:MAX' \
+'DEF:host_8_152=8_152.rrd:host:MAX' \
+'DEF:host_8_153=8_153.rrd:host:MAX' \
+'DEF:host_8_154=8_154.rrd:host:MAX' \
+'DEF:host_8_155=8_155.rrd:host:MAX' \
+'DEF:host_8_156=8_156.rrd:host:MAX' \
+'DEF:host_8_157=8_157.rrd:host:MAX' \
+'DEF:host_8_158=8_158.rrd:host:MAX' \
+'DEF:host_8_159=8_159.rrd:host:MAX' \
+'DEF:host_8_160=8_160.rrd:host:MAX' \
+'DEF:host_8_170=8_170.rrd:host:MAX' \
+'DEF:host_8_171=8_171.rrd:host:MAX' \
+'DEF:host_8_172=8_172.rrd:host:MAX' \
+'DEF:host_8_173=8_173.rrd:host:MAX' \
+'DEF:host_11_148=11_148.rrd:host:MAX' \
+'DEF:host_11_149=11_149.rrd:host:MAX' \
+'DEF:host_11_151=11_151.rrd:host:MAX' \
+'DEF:host_11_152=11_152.rrd:host:MAX' \
+'DEF:host_11_153=11_153.rrd:host:MAX' \
+'DEF:host_11_154=11_154.rrd:host:MAX' \
+'DEF:host_11_155=11_155.rrd:host:MAX' \
+'DEF:host_11_156=11_156.rrd:host:MAX' \
+'DEF:host_11_157=11_157.rrd:host:MAX' \
+'DEF:host_11_158=11_158.rrd:host:MAX' \
+'DEF:host_11_159=11_159.rrd:host:MAX' \
+'DEF:host_11_170=11_170.rrd:host:MAX' \
+'DEF:host_11_171=11_171.rrd:host:MAX' \
+'DEF:host_11_172=11_172.rrd:host:MAX' \
+'DEF:host_11_173=11_173.rrd:host:MAX' \
+'LINE1:host_8_149#F0F8FF:Host_8_149' \
+'LINE1:host_8_150#00FFFF:Host_8_150' \
+'LINE1:host_8_151#000000:Host_8_151' \
+'LINE1:host_8_152#4682B4:Host_8_152' \
+'LINE1:host_8_153#FF0000:Host_8_153' \
+'LINE1:host_8_154#98FB98:Host_8_154' \
+'LINE1:host_8_155#F0E68C:Host_8_155' \
+'LINE1:host_8_156#ADFF2F:Host_8_156' \
+'LINE1:host_8_157#FFD700:Host_8_157' \
+'LINE1:host_8_158#228B22:Host_8_158' \
+'LINE1:host_8_159#1E90FF:Host_8_159' \
+'LINE1:host_8_160#696969:Host_8_160' \
+'LINE1:host_8_170#FF1493:Host_8_170' \
+'LINE1:host_8_171#483D8B:Host_8_171' \
+'LINE1:host_8_172#9932CC:Host_8_172' \
+'LINE1:host_8_173#FF8C00:Host_8_173' \
+'LINE1:host_11_148#8B008B:Host_11_148' \
+'LINE1:host_11_149#006400:Host_11_149' \
+'LINE1:host_11_151#A9A9A9:Host_11_151' \
+'LINE1:host_11_152#B8860B:Host_11_152' \
+'LINE1:host_11_153#008B8B:Host_11_153' \
+'LINE1:host_11_154#00008B:Host_11_154' \
+'LINE1:host_11_155#00FFFF:Host_11_155' \
+'LINE1:host_11_156#DC143C:Host_11_156' \
+'LINE1:host_11_157#6495ED:Host_11_157' \
+'LINE1:host_11_158#FF7F50:Host_11_158' \
+'LINE1:host_11_159#D2691E:Host_11_159' \
+'LINE1:host_11_170#7FFF00:Host_11_170' \
+'LINE1:host_11_171#5F9EA0:Host_11_171' \
+'LINE1:host_11_172#A52A2A:Host_11_172' \
+'LINE1:host_11_173#8A2BE2:Host_11_173'
+#
+$RRDTOOL graph Network_Latency_Yearly_Other.png \
+-w 800 -h 160 -a PNG \
+--slope-mode \
+--start -1y --end now \
+--font DEFAULT:7: \
+--title "Yearly Remote Latency Check" \
+--watermark "`date`" \
+--vertical-label "Latency(ms)" \
+--lower-limit 0 \
+--x-grid DAY:7:MONTH:1:MONTH:1:2419200:%b \
+--alt-y-grid --rigid \
+'DEF:host_AMAPROD=ama4ws_PROD.rrd:host:MAX' \
+'DEF:host_AMADR=ama4___DR.rrd:host:MAX' \
+'DEF:host_INS02=vclins02.rrd:host:MAX' \
+'LINE1:host_AMAPROD#4682B4:AMA_PROD' \
+'LINE1:host_AMADR#00FFFF:AMA_DR' \
+'LINE1:host_INS02#000000:VCLINS02'
+#
+### Create the HTML: ############################################################
+#echo "
+#<HTML>
+#<HEAD><TITLE>$HOSTNAME Network Latancies</TITLE></HEAD>
+#<BODY>
+#<H3>Hourly Latancy Stats</H3>
+#<img src="Network_Latency_01hrs.png"><br>
+#<br>
+#<H3>4 Hourly Latancy Stats</H3>
+#<img src="Network_Latency_04hrs.png"><br>
+#<br>
+#<H3>8 Hourly Latancy Stats</H3>
+#<img src="Network_Latency_08hrs.png"><br>
+#<br>
+#<H3>24 Hourly Latancy Stats</H3>
+#<img src="Network_Latency_24hrs.png"><br>
+#<br>
+#<H3>Weekly Latancy Stats</H3>
+#<img src="Network_Latency_weekly.png"><br>
+#<br>
+#<H3>Monthly Latancy Stats</H3>
+#<img src="Network_Latency_monthly.png"><br>
+#<br>
+#<H3>Yearly Latancy Stats</H3>
+#<img src="Network_Latency_yearly.png"><br>
+#<br>
+#</BODY>
+#</HTML>
+#" > 4CiT_Network_Latancy.html
+### FIN

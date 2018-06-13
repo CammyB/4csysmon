@@ -1,0 +1,126 @@
+System monitoring & checking list:
+__________________________________
+
+
+- 1_unix
+	|
+	|_ 1_cpu 
+	|	|
+	|	|_ cpu_usage.sh							done
+	|	|_ cpu_status.sh						done
+	|	|_ cpu_status_rhel.sh						done
+	|	|_ cpu_run_q.sh							NOT DONE	
+	|
+	|_ 2_mem
+	|	|
+	|	|_ mem_usage.sh							done
+	|	|_ mem_usage_rhel.sh						done
+	|
+	|_ 3_io
+	|	|
+	|	|_ 1_storage
+	|	|	|
+	|	|	|_ 1_fs
+	|	|	|	|
+	|	|	|	|_ fs_utilization.sh				done
+	|	|	|	|_ fs_utilization_hp.sh				done
+	|	|	|	|_ fs_utilization_rhel.sh			done
+	|	|	|	|_ inode_utilization.sh				done
+	|	|	|	|_ inode_utiliation_rhel.sh			NOT DONE
+	|	|	|	|_ metadevice_health.sh				done
+	|	|	|	|_ mntab_diff_vfstab.sh				done
+	|	|	|	|_ mntab_diff_zonecfg.sh			done
+	|	|	|	
+	|	|	|_ 2_tape
+	|	|	|	|_ tapedrive_status.sh				done
+	|	|	|
+	|	|	|
+	|	|	|_ 3_san
+	|	|		|_ vnx_mess.sh
+	|	|		|_ netapp.sh
+	|	|		
+	|	|
+	|	|_ 2_network
+	|		|_ mis_frontend_status.sh				done
+	|		|_ nic_connection.sh					done
+	|		|_ ssh_connection.sh					done
+	|		|
+	|		|_ 1_latency_check
+	|			|_ latency_check.sh				done
+	|
+	|_ 4_useradmin
+	|	|_ os_useracc_pass_exp.sh					done
+	|
+	|_ 5_sysadmin
+	|	|_ messages_monitor.sh						done
+	|	|_ messages_monitor_rhel.sh					done
+	|	|_ cron_queue.sh						done
+	|	|_ svc_state.sh							done
+	|	|_ 4csysmon_disabled.sh						done
+	|	|
+	|	|_ 1_nbu
+	|	|	|_ nbu_slot_changes.sh					done
+	|	|	|_ nbu_policy_changes.sh				done
+	|	|	|
+        |	|	|_ 1_stats		
+	|	|	|	|_ collect_activity.sh				done
+	|	|	|	|_ collect_conf_env.sh				done
+	|	|	|	|_ collect_conf_pol.sh				done
+	|	|	|	|_ collect_events.sh				done
+	|	|	|
+        |	|	|_ 2_media
+	|	|		|_ mountcount.sh				done
+	|	|
+        |_ 6_misc
+        | 
+        |
+        |_ 7_temp
+	
+
+- 2_db
+        |
+	|_ 1_data_inserts
+	|	|_icsd_daily.sh					
+	|
+	|_ 2_pmon_check
+		|_pmon_asm_check.sh
+		|_pmon_db_check.sh
+	|
+	|_ 3_trc_file_remove
+	|	|_trc_file_remove.sh
+
+
+- 3_app
+	|
+	|_ 1_rsync
+	|	|_ insight
+	|	|	|_insight_sync_dr.sh
+	|	|	
+	|	|_ ins_user
+	|		|_insight_sync_dr.sh
+	|
+	|_ 2_shadbase
+	|	|_ shadbase_check.ksh
+	|
+	|_ 3_app
+	|	|_3_loader_check
+	|		|_ iNSIGHT
+	|			|_ 1_run_insight_loader_check.sh
+	|			|_ 2_insight_loader_check.sh
+	|			|_ 3_update_rrd.sh
+	|		
+
+- 4_bckp	
+	|_ 1_db_archive
+	|	|_ insight_db_archive_backup.sh
+	|	|_ insight_db_archive_backup_check.sh
+	|
+	|_ 2_insight_archive
+	|	|_ insight_arc_backup.sh
+	|	|_ insight_arc_backup_check.sh
+	|
+	|_ 3_backup_reports
+	|	|_ backup_report.sh
+	|
+	|_ 4_fundamo_archive
+	

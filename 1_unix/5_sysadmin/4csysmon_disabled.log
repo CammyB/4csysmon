@@ -1,0 +1,67 @@
+09/01/15 14:08:04 stamp
+09/01/15 14:08:04 stamp
+09/01/15 14:08:04 stamp
+09/01/15 14:08:04 stamp
+09/01/15 14:08:04 stamp
+09/01/15 14:08:04 stamp
+09/01/15 14:08:04 stamp
+09/01/15 14:08:30 stamp
+09/01/15 14:08:30 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/1_cpu/cpu_status.sh >/dev/null 2>&1
+09/01/15 14:08:30 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/1_cpu/cpu_usage.sh > /dev/null 2>&1
+09/01/15 14:08:30 stamp
+09/01/15 14:08:30 stamp
+09/01/15 14:08:30 stamp
+09/01/15 14:08:30 stamp
+09/01/15 14:08:30 stamp
+09/01/15 14:55:32 stamp
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/1_cpu/cpu_status.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/1_cpu/cpu_usage.sh > /dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/2_mem/mem_usage.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,15,30,45 8-17 * * * /4csysmon/1_unix/3_io/1_storage/1_fs/fs_utilization.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #10 18-7 * * * /4csysmon/1_unix/3_io/1_storage/1_fs/fs_utilization.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/inode_utilization.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/metadevice_health.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/mntab_diff_vfstab.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/mntab_diff_zonecfg.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/5_sysadmin/messages_monitor.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/1_unix/3_io/2_network/nic_connection.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/1_unix/5_sysadmin/svc_state.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0 1 * * * /4csysmon/1_unix/4_useradmin/os_useracc_pass_exp.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,30 * * * * /4csysmon/1_unix/5_sysadmin/cron_queue.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,30 * * * * /4csysmon/1_unix/3_io/1_storage/2_tape/tapedrive_status.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/2_network/ssh_connection.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/2_db/2_pmon_check/pmon_db_check.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/2_db/2_pmon_check/pmon_asm_check.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/2_db/3_trace_file_removal/trc_file_remove.sh >/dev/null 2>&1
+09/01/15 14:55:32 zacptspmsu01____ P3 __4csysmon__disabled  #0 1 * * * /4csysmon/1_unix/3_io/3_san/vnx_mess.sh >/dev/null 2>&1
+09/01/15 14:55:32 stamp
+09/01/15 14:55:32 stamp
+09/01/15 14:55:32 stamp
+09/01/15 14:55:32 stamp
+09/01/15 14:55:32 stamp
+09/01/15 14:55:46 stamp
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/1_cpu/cpu_status.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/1_cpu/cpu_usage.sh > /dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/2_mem/mem_usage.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,15,30,45 8-17 * * * /4csysmon/1_unix/3_io/1_storage/1_fs/fs_utilization.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #10 18-7 * * * /4csysmon/1_unix/3_io/1_storage/1_fs/fs_utilization.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/inode_utilization.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/metadevice_health.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/mntab_diff_vfstab.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/1_storage/1_fs/mntab_diff_zonecfg.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/5_sysadmin/messages_monitor.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/1_unix/3_io/2_network/nic_connection.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/1_unix/5_sysadmin/svc_state.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0 1 * * * /4csysmon/1_unix/4_useradmin/os_useracc_pass_exp.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,30 * * * * /4csysmon/1_unix/5_sysadmin/cron_queue.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,30 * * * * /4csysmon/1_unix/3_io/1_storage/2_tape/tapedrive_status.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/1_unix/3_io/2_network/ssh_connection.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/2_db/2_pmon_check/pmon_db_check.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0,10,20,30,40,50 * * * * /4csysmon/2_db/2_pmon_check/pmon_asm_check.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0 * * * * /4csysmon/2_db/3_trace_file_removal/trc_file_remove.sh >/dev/null 2>&1
+09/01/15 14:55:46 zacptspmsu01____ P3 __4csysmon__disabled  #0 1 * * * /4csysmon/1_unix/3_io/3_san/vnx_mess.sh >/dev/null 2>&1
+09/01/15 14:55:46 stamp
+09/01/15 14:55:46 stamp
+09/01/15 14:55:46 stamp
+09/01/15 14:55:46 stamp
+09/01/15 14:55:46 stamp

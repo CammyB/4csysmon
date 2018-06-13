@@ -1,0 +1,36 @@
+#!/bin/bash
+##########################################################
+#
+WRDIR="/4csysmon/1_unix/3_io/2_network/1_latency_check"
+cd $WRDIR
+SYSTEMS=system.lst
+PING=/usr/sbin/ping
+#
+##########################################################
+### Check to see if one is running already
+PSCNT="`ps -ef |grep -i "latancy_check.sh" | grep -iv grep | wc -l | awk '{print $1}'`"
+if [ ${PSCNT} -gt 4 ]
+        then
+                echo "......... ${PSCNT} Latancy Check running already `date` ........"
+                exit 1
+fi
+###
+if [[ -f "$SYSTEMS" ]]
+        then
+                echo "$SYSTEMS is there"
+        else
+                exit 1
+fi
+##########################################################
+PING_HOST() {
+OUTPT=$($PING -s $IPADDR 1442 4 2>&1)
+L_PL=$(echo "$OUTPT" | awk '/packets transmitted/{print $7+0}')
+L_RTT=$(echo "$OUTPT" | grep -i avg |awk -F"/" '{print $6}')
+}
+##########################################################
+cat $SYSTEMS | grep -iv "#" | while read IPADDR HOSTNM
+do
+PING_HOST $IPADDR
+echo "`date +"%Y-%m-%d %H:%M:%S"`,$HOSTNM,$L_PL,$L_RTT" >> $HOSTNM.csv
+done
+### FIN ###

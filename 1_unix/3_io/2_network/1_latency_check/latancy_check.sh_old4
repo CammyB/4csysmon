@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# Solaris 10 certified
+# File name:    latancy_check.sh
+# Syntax:       latancy_check.sh
+# Prereq's:     rrdtool
+#               system.list file looking like this:
+# VTZN Host Latancy to be checked
+# -------------------------------
+# IP Address    Hostname_RRD
+# -------------------------------
+### NSN ###
+#172.16.43.10    NSN_CUA.rrd
+#
+# Put in cron every 5 min:
+#/4csysmon/1_unix/3_io/2_network/1_latency_check/latancy_check.sh
+##########################################################
+#
+WRDIR="/4csysmon/1_unix/3_io/2_network/1_latency_check"
+cd $WRDIR
+SYSTEMS=system.lst
+PING=/usr/sbin/ping
+RRDTOOL="/usr/local/rrdtool-1.2.19/bin/rrdtool"
+#
+##########################################################
+### Check to see if one is running already
+PSCNT="`ps -ef |grep -i "latancy_check.sh" | grep -iv grep | wc -l | awk '{print $1}'`"
+if [ ${PSCNT} -gt 4 ]
+        then
+                echo "......... ${PSCNT} Latancy Check running already `date` ........"
+                exit 1
+fi
+###
+if [[ -f "$SYSTEMS" ]]
+        then
+                echo "$SYSTEMS is there"
+        else
+                exit 1
+fi
+##########################################################
+PING_HOST() {
+OUTPT=$($PING -s $IPADDR 64 4 2>&1)
+L_PL=$(echo "$OUTPT" | awk '/packets transmitted/{print $7+0}')
+L_RTT=$(echo "$OUTPT" | grep -i avg |awk -F"/" '{print $6}')
+}
+##########################################################
+cat $SYSTEMS | grep -iv "#" | while read IPADDR HOSTNM
+do
+PING_HOST $IPADDR
+if [[ -f "$HOSTNM" ]]
+        then
+                $RRDTOOL update $HOSTNM --template pl:rrt N:$L_PL:$L_RTT
+        else
+                $RRDTOOL create $HOSTNM --step 300 DS:pl:GAUGE:600:0:100 DS:rrt:GAUGE:600:0:10000000 RRA:AVERAGE:0.5:1:800 RRA:AVERAGE:0.5:6:800 RRA:AVERAGE:0.5:24:800 RRA:AVERAGE:0.5:288:800 RRA:MAX:0.5:1:800 RRA:MAX:0.5:6:800 RRA:MAX:0.5:24:800 RRA:MAX:0.5:288:800
+                $RRDTOOL update $HOSTNM --template pl:rrt N:$L_PL:$L_RTT
+fi
+done
+### FIN ###

@@ -1,0 +1,59 @@
+#################
+#Global Variebles#
+##################
+
+# Hostname (max 16chars):
+             ################
+HOSTLOGNAME="________________"
+
+# Hostname to use for alerting (without the underscores)
+HOST=`uname -n`
+
+# Master log file:
+MASTERLOG=/4csysmon/`uname -n`.log
+
+# Path to SMS script
+SMS=/root/bin/sms.sh
+
+# Current Date
+DATE=`date '+%D %T'`
+
+# PATH to SD Template file
+SDTEMP=/4csysmon/1_unix/6_misc/SD_template.txt
+
+# Alerting parties:
+UXSUPPSMS=27824118429
+UXSUPPMAIL=unixsupport@4cgroup.co.za
+ORASUPPSMS=27829257034
+ORASUPPMAIL=orasupport@4cgroup.co.za
+VTLSUPPSMS=27722817881
+VTLSUPPMAIL=vtlsupport@4cgroup.co.za
+DRCSUPPSMS=27722817881
+DRCSUPPMAIL=drcsupport@4cgroup.co.za
+VMSASUPPSMS=27722817881
+VMSASUPPMAIL=virginsupport@4cgroup.co.za
+VCLSUPPSMS=27722817881
+VCLSUPPMAIL=vclsupport@4cgroup.co.za
+VMZSUPPSMS=27722817881
+VMZSUPPMAIL=vmozsupport@4cgroup.co.za
+OSCARSMS=27827287973
+BCXSMS=27823476904
+BILLAPPTZMAIL=billingapplicationsupport@vodacom.co.tz
+BILLAPPTZSMS=255769706562
+SERVICEDESKMAIL=servicedesk@4cgroup.co.za
+SYSMONMAIL=4c.monitor@DOMAIN
+
+# SD Template Variables
+ACC="@@ACCOUNT=account@@"
+SITE="@@SITE=site@@"
+MODE="@@MODE=E-Mail@@"
+REQ="@@REQUESTER=Super-User@@"
+REQTYPE="@@REQUESTTYPE=Alerts@@"
+GRP="@@GROUP=Systems@@"
+OPP="@@OPERATION=AddRequest@@"
+TECH="@@TECHNICIAN=4C Support - Unix Standby Technician@@"
+CAT="@@CATEGORY=sla@@"
+SCAT="@@SUBCATEGORY=General@@"
+ITEM="@@ITEM=host@@"
+PRI="@@PRIORITY=P2@@"
+URG="@@URGENCY=2 - Medium@@"

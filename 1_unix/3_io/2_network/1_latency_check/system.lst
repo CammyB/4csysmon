@@ -1,0 +1,8 @@
+# Host Latancy to be checked
+# -------------------------------
+# IP Address    Hostname_RRD
+# -------------------------------
+### DRC ###
+10.200.7.31	drcvodat401.rrd
+10.200.7.11	drcvodam5k01.rrd
+41.78.195.138	drcvpn.rrd

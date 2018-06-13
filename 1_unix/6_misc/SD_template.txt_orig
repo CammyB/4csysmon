@@ -1,0 +1,14 @@
+  @@ACCOUNT=account@@
+  @@SITE=site@@
+  @@MODE=E-Mail@@
+  @@REQUESTER=Super-User@@
+  @@REQUESTTYPE=Alerts@@
+  @@GROUP=Systems@@
+  @@OPERATION=AddRequest@@
+  @@TECHNICIAN=4C Support - Unix Standby Technician@@
+  @@CATEGORY=sla@@
+  @@SUBCATEGORY=General@@
+  @@ITEM=host@@
+  @@PRIORITY=P2@@
+  @@URGENCY=2 - Medium@@
+

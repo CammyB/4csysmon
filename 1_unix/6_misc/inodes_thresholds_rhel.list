@@ -1,0 +1,10 @@
+#ADD mount points with inode threshold here
+#
+################################
+#MOUNT		THRESHOLD in % #
+################################
+/ 		80
+/boot		80
+/home		80
+/app		80
+/grid		80

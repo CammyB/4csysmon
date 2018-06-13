@@ -1,0 +1,10 @@
+Characters:
+   8      8       16         2         20     max 66
+<date> <time> <hostname> <priority> <metric> <event>
+
+Total:
+White spaces between criteria: 5
+8 + 8 + 16 + 2 + 20 + 66 + 5 = 125 chars
+
+Example:
+12/13/10 12:03:13 ___tzvodasmc01__ P1 hostlog_sync_failure hostlog sync failure to zasrvsmon01

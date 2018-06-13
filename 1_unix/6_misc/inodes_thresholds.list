@@ -1,0 +1,8 @@
+#ADD mount points with inode threshold here
+#
+################################
+#MOUNT		THRESHOLD in % #
+################################
+/ 		80
+/var		80
+/export/home	80
