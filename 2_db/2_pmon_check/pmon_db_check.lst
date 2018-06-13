@@ -1,0 +1,1 @@
+## ADD DB SID list here, obtain from `ps -ef | grep -v grep | grep ora_pmon`
